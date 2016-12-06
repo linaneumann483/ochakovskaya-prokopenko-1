@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 public class WorkFrame extends JFrame{
 	 public static final int MY_WIDTH = 600;
-	 public static final int MY_HEIGHT = 600;
+	 public static final int MY_HEIGHT = 400;
 	 
 	public WorkFrame(){
 	 setTitle("ButtonTest");

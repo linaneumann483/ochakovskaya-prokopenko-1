@@ -1,9 +1,13 @@
+import java.io.Serializable;
 
-class Voc {
-	private String word, translation;
+class Voc implements Serializable {
+	private static final long serialVersionUID = -5190477996505555780L;
+	private String word;
+	private String[] translations;
 	private int correct;
 	
-	Voc(){
+	public Voc(){
+		translations = new String[0];
 		correct = 0;
 	}
 	
@@ -15,20 +19,29 @@ class Voc {
 		this.word = word;
 	}
 	
-	public String getTranslation(){
-		return translation;
+	public String getTransl(int i){
+		return this.translations[i];
 	}
 	
-	public void setTranslation(String translation){
-		this.translation = translation;
+	public String getRandTransl(){
+		Rand r = new Rand(1,translations.length-1);
+		return getTransl(r.getNumbers()[0]);
 	}
+	
+	public String[] getTrans(){
+		return translations;
+	}
+	
+	public void setTrans(String [] translations){
+	    	this.translations = translations;
+	}	
 	
 	public int getcorrect(){
 		return correct;
 	}
 	
-	public void setCorrect(int correct){
-		this.correct = correct;
+	public void setCorrect(int i){
+		this.correct = i;
 	}
-
+	
 }
