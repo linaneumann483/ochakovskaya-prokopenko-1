@@ -1,46 +1,35 @@
-import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Test1 {
 public static Voc[] v;
+public static InputVoc t;
+public static int num;
+public static int numWords;
+public static File x = new File("VocabluaryUnKnown.bin");
+public static File y = new File("VocabluaryLearning.bin");
 
-  public static void main(String[] args){
-	  	  
-		  v = new Voc[5];
-		  v[0] = new Voc();
-		  v[0].setWord("dog");
-		  String[] a = new String[1];
-		  a[0] = "собака";
-		  v[0].setTrans(a);
-		  
-		  v[1] = new Voc();
-		  v[1].setWord("cat");
-		  String[] b = new String[1];
-		  b[0] = "котик";
-		  v[1].setTrans(b);
-		  
-		  v[2] = new Voc();
-		  v[2].setWord("fish");
-		  String[] c = new String[1];
-		  c[0] = "рыбка";
-		  v[2].setTrans(c);
-		  
-		  v[3] = new Voc();
-		  v[3].setWord("parrot");
-		  String[] d = new String[1];
-		  d[0] = "попугай";
-		  v[3].setTrans(d);
-		  
-		  v[4] = new Voc();
-		  v[4].setWord("rabbit");
-		  String[] e = new String[1];
-		  e[0] = "кролик";
-		  v[4].setTrans(e);
-	  
+  public static void main(String[] args) throws ClassNotFoundException, IOException{
+	  t = new InputVoc();
+	  t.Create();
+
+	  v = t.readFromVoc(x);
+	  if (v==null) System.out.println("File is empty:((");
+	  else{
+	  System.out.println("File 1:");
+		for(int i = 0; i < v.length; i++){
+			System.out.print(v[i].getWord()+" ");
+			for(int j = 0; j<v[i].getTrans().length; j++){
+				System.out.print(v[i].getTransl(j)+" ");
+			}
+			System.out.println("");
+		}
+	  num=3;
 	  WorkFrame frame = new WorkFrame();
 	  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  frame.setVisible(true);
-	}
+	}}
   }
 
 

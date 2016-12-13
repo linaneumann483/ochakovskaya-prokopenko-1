@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 class Voc implements Serializable {
@@ -13,6 +14,17 @@ class Voc implements Serializable {
 	
 	public String getWord(){
 		return word;
+	}
+	
+	public void AddToLearnt(){
+		InputVoc in = new InputVoc();
+		try {
+			in.perekidka(word, Test1.x, Test1.y);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setWord(String word){
