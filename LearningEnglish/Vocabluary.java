@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-class Vocabluary implements Serializable {
+public class Vocabluary implements Serializable {
 	private static final long serialVersionUID = -5190477996505555780L;
 	private String word;
 	private String[] translations;
