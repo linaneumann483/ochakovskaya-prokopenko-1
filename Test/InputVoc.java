@@ -1,104 +1,108 @@
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
-class InputVoc implements Serializable{
+//LEARNING ENGLISH
+
+class InputVoc implements Serializable {
 	private static final long serialVersionUID = -5190477996505555780L;
-    
-	public void Create() {
-		Voc[] v = new Voc[6];
-		v[0] = new Voc();
-		  v[0].setWord("dog");
-		  String[] a = new String[1];
-		  a[0] = "собака";
-		  v[0].setTrans(a);
-		  
-		  v[1] = new Voc();
-		  v[1].setWord("cat");
-		  String[] b = new String[1];
-		  b[0] = "котик";
-		  v[1].setTrans(b);
-		  
-		  v[2] = new Voc();
-		  v[2].setWord("fish");
-		  String[] c = new String[1];
-		  c[0] = "рыбка";
-		  v[2].setTrans(c);
-		  
-		  v[3] = new Voc();
-		  v[3].setWord("parrot");
-		  String[] d = new String[1];
-		  d[0] = "попугай";
-		  v[3].setTrans(d);
-		  
-		  v[4] = new Voc();
-		  v[4].setWord("rabbit");
-		  String[] e = new String[1];
-		  e[0] = "кролик";
-		  v[4].setTrans(e);
-		  
-		  v[5] = new Voc();
-		  v[5].setWord("humster");
-		  String[] f = new String[1];
-		  f[0] = "хом€чок";
-		  v[5].setTrans(f);
-		  addToVoc(v, Test1.x);
-		  
+
+	public ArrayList<Voc> Create(File y) throws IOException, ClassNotFoundException {
+		BufferedReader r = null;
+		String a, b = "";
+		int k = 0;
+		ArrayList<Voc> v = new ArrayList<Voc>();
+		ArrayList<String> tr = new ArrayList<String>();
+		r = new BufferedReader(new FileReader(y));
+		a = r.readLine();
+		while (a != null) {
+			tr = new ArrayList<String>();
+			for (int i = 0; i < a.length(); i++) {
+				if (a.charAt(i) == ' ') {
+					for (int j = 0; j < i; j++) {
+						b = b + a.charAt(j);
+					}
+
+					Voc vv = new Voc();
+					vv.setWord(b);
+					v.add(vv);
+
+					b = "";
+					k = i;
+				}
+
+				if (a.charAt(i) == ',') {
+					for (int j = k + 1; j < i; j++) {
+						b = b + a.charAt(j);
+					}
+					tr.add(b);
+					b = "";
+					k = i;
+				}
+				if (i == a.length() - 1) {
+					for (int j = k + 1; j < i + 1; j++) {
+						b = b + a.charAt(j);
+					}
+					tr.add(b);
+					v.get(v.size() - 1).setTrans(tr);
+					tr = null;
+					b = "";
+					k = 0;
+				}
+			}
+			a = r.readLine();
+		}
+
+		r.close();
+		return v;
 	}
-	
-	public void addToVoc(Voc[] voc, File x){
+
+	public void addToVoc(List<Voc> e2, File x) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(x));
-			oos.writeObject(voc);
+			oos.writeObject(e2);
 			oos.flush();
 			oos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
-	
-	public Voc[] readFromVoc(File x) throws IOException, ClassNotFoundException{
-		Voc[] c;
-		    if(x.length()!=0){
-		    InputStream t = new BufferedInputStream(new FileInputStream(x));
-		 	ObjectInputStream input = new ObjectInputStream(t);
-		    c = (Voc[]) input.readObject();
-		 	input.close();
-	
-		return c;
-		    }else{
-		    	return null;
-		    }
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Voc> readFromVoc(File x) throws IOException, ClassNotFoundException {
+		ArrayList<Voc> c;
+		if (x.length() != 0) {
+			InputStream t = new BufferedInputStream(new FileInputStream(x));
+			ObjectInputStream input = new ObjectInputStream(t);
+			c = (ArrayList<Voc>) input.readObject();
+			input.close();
+
+			return c;
+		} else {
+			return null;
+		}
 	}
-	public void perekidka(String sl, File x, File y) throws ClassNotFoundException, IOException{
-	Voc[] v = readFromVoc(x);
-	for (int i = 0; i< v.length; i++){
-	if(v[i].getWord().equals(sl)){
-	    if(y.length()!=0){
-	    	Voc[] d = readFromVoc(y);
-	    	Voc[] e = new Voc[d.length+1];
-	    	System.arraycopy(d, 0, e, 0, d.length);
-	    	e[e.length-1] = v[i];
-	    	addToVoc(e, y);
-	    } else{
-	    	Voc[] e = new Voc[1];
-	    	e[e.length-1] = v[i];
-	    	addToVoc(e, y);
-	    }
-	     for(int k = i+1; k < v.length; k++){	 
-	    v[k-1] = v[k];	 
-	     }
-	     Voc[] t = new Voc[v.length-1];
-	     System.arraycopy(v, 0, t, 0, t.length);
-	     addToVoc(t, x);
+
+	public void perekidka(String sl, File x, File y) throws ClassNotFoundException, IOException {
+		ArrayList<Voc> v = readFromVoc(x);
+		for (int i = 0; i < v.size(); i++) {
+			if (v.get(i).getWord().equals(sl)) {
+				ArrayList<Voc> d = readFromVoc(y);
+				ArrayList<Voc> e = new ArrayList<Voc>();
+				System.arraycopy(d, 0, e, 0, d.size());
+				addToVoc(e, y);
+			}
+
+		}
 	}
-	}
-	
-     }
 }

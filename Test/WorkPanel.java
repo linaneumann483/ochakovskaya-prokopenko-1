@@ -9,27 +9,43 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+//LEARNING ENGLISH 
+
 public class WorkPanel extends JPanel {
+	private static User polzovatel;
+	Font font = new Font("Verdana", Font.PLAIN, 25);
+	private static ArrayList<Voc> v;
+	private static ArrayList<Voc> v1;
+	private static ArrayList<Voc> v2;
+	private static int numCorrect;
+	private static int num;
+	private static File myVoc;
 	private static final long serialVersionUID = -5190477996505555780L;
-	private File userfile;
-	private static Image im;
+	private File userfile, vocfile;
 	JLabel warn = new JLabel("");
 	JTextField login = new JTextField("", 15);
-	JTextField password = new JTextField("", 15);
-	JButton register = new JButton("Sign up");
-	JButton enter = new JButton("Sign in");
-	JLabel log = new JLabel("login");
-	JLabel pass = new JLabel("password");
+	JPasswordField password = new JPasswordField("", 15);
 
-	public WorkPanel() {
-		setBackground(Color.BLUE);
+	public WorkPanel() throws ClassNotFoundException, IOException {
+		setBackground(Color.yellow);
 		Test(0);
 	}
 
-	public void Test(int w) {
+	public void Test(int w) throws ClassNotFoundException, IOException {
 		switch (w) {
 		case 0: {
+			// LOG IN
+			warn = new JLabel("");
+			login = new JTextField("", 15);
+			password = new JPasswordField("", 15);
+
+			JButton register = new JButton("Sign up");
+			JButton enter = new JButton("Sign in");
+			JLabel log = new JLabel("login");
+			JLabel pass = new JLabel("password");
+
 			userfile = new File("users.txt");
+			vocfile = new File("vocab.txt");
 			add(login);
 			add(password);
 			add(register);
@@ -54,31 +70,39 @@ public class WorkPanel extends JPanel {
 		}
 			break;
 		case 1: {
-			JButton test1 = new JButton("Test 1");
-			JButton test2 = new JButton("Test 2");
-			JButton test3 = new JButton("Test 3");
+			// MENU
+			JButton test1 = new JButton("Начать обучение");
+			JButton test2 = new JButton("Смотреть словари");
+			JButton test3 = new JButton("Смотреть результаты");
+			JButton test5 = new JButton("Пофиксить");
+			JButton test4 = new JButton("Выйти нафиг");
 			add(test1);
-			test1.setBounds(100, 150, 100, 50);
+			test1.setBounds(250, 50, 150, 50);
 			add(test2);
-			test2.setBounds(210, 150, 100, 50);
+			test2.setBounds(250, 110, 150, 50);
 			add(test3);
-			test3.setBounds(320, 150, 100, 50);
-			ButtonAction firstTest = new ButtonAction(2);
-			ButtonAction secTest = new ButtonAction(3);
-			ButtonAction thirdTest = new ButtonAction(4);
-			test1.addActionListener(firstTest);
-			test2.addActionListener(secTest);
-			test3.addActionListener(thirdTest);
+			test3.setBounds(250, 170, 150, 50);
+			add(test4);
+			test4.setBounds(250, 290, 150, 50);
+			add(test5);
+			test5.setBounds(250, 230, 150, 50);
+
+			ButtonAction forTests = new ButtonAction(2);
+			// ButtonAction forUser = new ButtonAction(6);
+			// ButtonAction forVocs = new ButtonAction(7);
+			ButtonAction forEnter = new ButtonAction(0);
+			ButtonAction forFix = new ButtonAction(5);
+			test1.addActionListener(forTests);
+			// test2.addActionListener(forUser);
+			// test3.addActionListener(forVocs);
+			test4.addActionListener(forEnter);
+			test5.addActionListener(forFix);
 
 		}
 			break;
 		case 2: {
-			im = new ImageIcon("1.jpg").getImage();
-			Graphics gr = getGraphics();
-			// gr.drawImage(im, 0, 0, 600, 400, null);
+			// TEST1
 			repaint();
-
-			Font font = new Font("Verdana", Font.PLAIN, 25);
 			JButton goBack = new JButton("To menu");
 			add(goBack);
 
@@ -86,7 +110,6 @@ public class WorkPanel extends JPanel {
 			ButtonAction1 act = new ButtonAction1();
 			goBack.addActionListener(act);
 
-			Voc[] v = Test1.v;
 			Voc[] masW = new Voc[3];// local vocabulary, words in this test
 			Voc masT = new Voc();// right answer
 
@@ -94,12 +117,12 @@ public class WorkPanel extends JPanel {
 				masW[ii] = new Voc();
 			}
 
-			Rand r = new Rand(3, v.length);
+			Rand r = new Rand(3, v.size());
 			int[] a = r.getNumbers();
 
-			masW[0] = v[a[0]];
-			masW[1] = v[a[1]];
-			masW[2] = v[a[2]];
+			masW[0] = v.get(a[0]);
+			masW[1] = v.get(a[1]);
+			masW[2] = v.get(a[2]);
 
 			r = new Rand(1, 3);
 			int ind = r.getNumbers()[0];
@@ -150,11 +173,7 @@ public class WorkPanel extends JPanel {
 		}
 			break;
 		case 3: {
-			im = new ImageIcon("1.jpg").getImage();
-			Graphics gr = getGraphics();
-			// gr.drawImage(im, 0, 0, 600, 400, null);
-
-			Font font = new Font("Verdana", Font.PLAIN, 25);
+			// TEST2
 			JButton goBack = new JButton("To menu");
 			goBack.setBounds(10, 10, 100, 20);
 			add(goBack);
@@ -162,19 +181,18 @@ public class WorkPanel extends JPanel {
 			ButtonAction1 act = new ButtonAction1();
 			goBack.addActionListener(act);
 
-			Voc[] v = Test1.v;
 			Voc[] masW = new Voc[3];
 			Voc masT = new Voc();
 			for (int ii = 0; ii < 3; ii++) {
 				masW[ii] = new Voc();
 			}
 
-			Rand r = new Rand(3, v.length);
+			Rand r = new Rand(3, v.size());
 			int[] a = r.getNumbers();
 
-			masW[0] = v[a[0]];
-			masW[1] = v[a[1]];
-			masW[2] = v[a[2]];
+			masW[0] = v.get(a[0]);
+			masW[1] = v.get(a[1]);
+			masW[2] = v.get(a[2]);
 
 			r = new Rand(1, 3);
 			int ind = r.getNumbers()[0];
@@ -223,7 +241,7 @@ public class WorkPanel extends JPanel {
 		}
 			break;
 		case 4: {
-			Font font = new Font("Verdana", Font.PLAIN, 25);
+			// TEST3
 			JButton goBack = new JButton("To menu");
 			goBack.setBounds(10, 10, 100, 20);
 			add(goBack);
@@ -231,18 +249,17 @@ public class WorkPanel extends JPanel {
 			ButtonAction1 act = new ButtonAction1();
 			goBack.addActionListener(act);
 
-			Voc[] v = Test1.v;
 			Voc[] masW = new Voc[3];
 			for (int ii = 0; ii < 3; ii++) {
 				masW[ii] = new Voc();
 			}
 
-			Rand r = new Rand(3, v.length);
+			Rand r = new Rand(3, v.size());
 			int[] a = r.getNumbers();
 
-			masW[0] = v[a[0]];
-			masW[1] = v[a[1]];
-			masW[2] = v[a[2]];
+			masW[0] = v.get(a[0]);
+			masW[1] = v.get(a[1]);
+			masW[2] = v.get(a[2]);
 
 			JLabel labe1 = new JLabel("1." + masW[0].getWord());
 			labe1.setFont(font);
@@ -311,11 +328,66 @@ public class WorkPanel extends JPanel {
 
 		}
 			break;
+		case 5: {
+			// CHECK NUM/NUMCORRECT
+			setBackground(Color.CYAN);
+			JLabel what = new JLabel("Что вы хотите настроить?");
+			what.setFont(font);
+			what.setBounds(100, 20, 300, 70);
+			add(what);
+
+			JLabel laba1 = new JLabel("Количество слов для изучения");
+			JLabel laba2 = new JLabel("Количество правильных ответов");
+
+			JTextField bu1 = new JTextField(polzovatel.getNumber());
+			bu1.setBounds(200, 100, 50, 50);
+			add(bu1);
+			JTextField bu2 = new JTextField(polzovatel.getNumCorrect());
+			bu2.setBounds(200, 200, 50, 50);
+			add(bu2);
+
+			laba1.setBounds(100, 100, 250, 50);
+			laba2.setBounds(100, 150, 250, 50);
+
+			add(laba1);
+			add(laba2);
+
+			JButton myBut = new JButton();
+			ButtonActionKnop bb1 = new ButtonActionKnop(bu1, bu2);
+			myBut.addActionListener(bb1);
+			myBut.setBounds(300, 100, 50, 50);
+			add(myBut);
+		}
+			break;
 		}
 	}
 
 	public void setVis(boolean a) {
 		setVisible(a);
+	}
+
+	private class ButtonActionKnop implements ActionListener {
+		JTextField n;
+		JTextField nc;
+
+		public ButtonActionKnop(JTextField a, JTextField b) {
+			n = a;
+			nc = b;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			num = Integer.valueOf(n.getText());
+			numCorrect = Integer.valueOf(nc.getText());
+			removeAll();
+			try {
+				Test(2);
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			repaint();
+		}
 	}
 
 	private class ButtonActionCh implements ActionListener {
@@ -338,28 +410,28 @@ public class WorkPanel extends JPanel {
 			try {
 				val1 = Integer.valueOf(f.getText()) - 1;
 				if (words[val1].getWord().equals(words[n[0]].getWord())) {
-					words[val1].setCorrect(words[val1].getcorrect() + 1);
-					if (words[val1].getcorrect() >= Test1.num) {
-						words[val1].AddToLearnt();
+					words[val1].setCorrect(words[val1].getCorrect() + 1);
+					if (words[val1].getCorrect() >= numCorrect) {
+						// words[val1].AddToLearnt();
 						System.out.println("Add to learnt");
 					}
 				}
 				System.out
-						.println("Val is:" + val1 + " Your answer:" + words[val1].getWord() + words[val1].getcorrect());
+						.println("Val is:" + val1 + " Your answer:" + words[val1].getWord() + words[val1].getCorrect());
 			} catch (NumberFormatException c) {
 			}
 
 			try {
 				val2 = Integer.valueOf(s.getText()) - 1;
 				if (words[val2].getWord().equals(words[n[1]].getWord())) {
-					words[val2].setCorrect(words[val2].getcorrect() + 1);
-					if (words[val2].getcorrect() >= Test1.num) {
-						words[val2].AddToLearnt();
+					words[val2].setCorrect(words[val2].getCorrect() + 1);
+					if (words[val2].getCorrect() >= numCorrect) {
+						// words[val2].AddToLearnt();
 						System.out.println("Add to learnt");
 					}
 				}
 				System.out
-						.println("Val is:" + val2 + " Your answer:" + words[val2].getWord() + words[val2].getcorrect());
+						.println("Val is:" + val2 + " Your answer:" + words[val2].getWord() + words[val2].getCorrect());
 
 			} catch (NumberFormatException c) {
 			}
@@ -367,18 +439,24 @@ public class WorkPanel extends JPanel {
 			try {
 				val3 = Integer.valueOf(t.getText()) - 1;
 				if (words[val3].getWord().equals(words[n[2]].getWord())) {
-					words[val3].setCorrect(words[val3].getcorrect() + 1);
-					if (words[val3].getcorrect() >= Test1.num) {
-						words[val3].AddToLearnt();
-						System.out.println("Add to learnt");
+					words[val3].setCorrect(words[val3].getCorrect() + 1);
+					if (words[val3].getCorrect() >= numCorrect) {
+						// words[val3].AddToLearnt();
+						System.out.println("Add to learnt" + words[val3].getCorrect());
 					}
 				}
 				System.out
-						.println("Val is:" + val3 + "Your answer:" + words[val3].getWord() + words[val3].getcorrect());
+						.println("Val is:" + val3 + "Your answer:" + words[val3].getWord() + words[val3].getCorrect());
 			} catch (NumberFormatException c) {
 			}
 			removeAll();
-			Test(2);
+			try {
+				Test(2);
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			repaint();
 		}
 
@@ -395,12 +473,17 @@ public class WorkPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			if (answer.getWord().equals(myanswer.getWord())) {
-				myanswer.setCorrect(myanswer.getcorrect() + 1);
+				myanswer.setCorrect(myanswer.getCorrect() + 1);
 			}
 
-			System.out.println(myanswer.getWord() + myanswer.getcorrect());
+			System.out.println(myanswer.getWord() + myanswer.getCorrect());
 			removeAll();
-			Test(3);
+			try {
+				Test(3);
+			} catch (ClassNotFoundException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			repaint();
 		}
 	}
@@ -416,16 +499,21 @@ public class WorkPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			if (answer.getWord().equals(myanswer.getWord())) {
-				myanswer.setCorrect(myanswer.getcorrect() + 1);
-				if (answer.getcorrect() >= Test1.num) {
-					answer.AddToLearnt();
+				myanswer.setCorrect(myanswer.getCorrect() + 1);
+				if (answer.getCorrect() >= numCorrect) {
+					// answer.AddToLearnt();
 					System.out.println("Add to learnt");
 				}
 			}
 
-			System.out.println(myanswer.getWord() + myanswer.getcorrect());
+			System.out.println(myanswer.getWord() + myanswer.getCorrect());
 			removeAll();
-			Test(4);
+			try {
+				Test(4);
+			} catch (ClassNotFoundException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			repaint();
 		}
 	}
@@ -433,7 +521,12 @@ public class WorkPanel extends JPanel {
 	private class ButtonAction1 implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			removeAll();
-			Test(1);
+			try {
+				Test(1);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			repaint();
 		}
 	}
@@ -447,14 +540,21 @@ public class WorkPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent event) {
 			removeAll();
-			Test(whatPanel);
+			try {
+				Test(whatPanel);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			repaint();
 		}
 	}
 
 	private class upAction implements ActionListener {
 		private List<User> use2;
+		private List<Voc> tmp;
 		private InputUser a = new InputUser();
+		private InputVoc b = new InputVoc();
 		private File ff;
 
 		public upAction(File f) {
@@ -462,6 +562,7 @@ public class WorkPanel extends JPanel {
 
 		}
 
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent event) {
 			String txt = null;
 			if ((login.getText().equals("")) || (password.getText().equals(""))) {
@@ -483,8 +584,18 @@ public class WorkPanel extends JPanel {
 									User e = new User();
 									e.setLogin(login.getText());
 									e.setPassword(password.getText());
-									e.setProc(new File("" + e.getLogin() + "(1).txt"));
-									e.setDone(new File("" + e.getLogin() + "(2).txt"));
+									try {
+										tmp = b.Create(vocfile);
+										File f2 = new File("" + e.getLogin() + "(1.1).txt");
+										b.addToVoc(tmp, f2);
+										e.setCommon(f2);
+									} catch (ClassNotFoundException | IOException e1) {
+										e1.printStackTrace();
+									}
+									File f3 = new File("" + e.getLogin() + "(1).txt");
+									e.setProc(f3);
+									File f4 = new File("" + e.getLogin() + "(2).txt");
+									e.setDone(f4);
 									use2.add(e);
 									a.addToVoc(use2, ff);
 									txt = "Registration complete!";
@@ -498,8 +609,18 @@ public class WorkPanel extends JPanel {
 						User e = new User();
 						e.setLogin(login.getText());
 						e.setPassword(password.getText());
-						e.setProc(new File("" + e.getLogin() + "(1).txt"));
-						e.setDone(new File("" + e.getLogin() + "(2).txt"));
+						try {
+							tmp = b.Create(vocfile);
+							File f2 = new File("" + e.getLogin() + "(1.1).txt");
+							b.addToVoc(tmp, f2);
+							e.setCommon(f2);
+						} catch (ClassNotFoundException | IOException e1) {
+							e1.printStackTrace();
+						}
+						File f3 = new File("" + e.getLogin() + "(1).txt");
+						e.setProc(f3);
+						File f4 = new File("" + e.getLogin() + "(2).txt");
+						e.setDone(f4);
 						use2 = new ArrayList<User>();
 						use2.add(e);
 						a.addToVoc(use2, ff);
@@ -539,8 +660,13 @@ public class WorkPanel extends JPanel {
 						for (int i = 0; i < use2.size(); i++) {
 							if ((use2.get(i).getLogin().equals(login.getText()))
 									&& (use2.get(i).getPassword().equals(password.getText()))) {
-								txt = "Welcome to Learning English!";
-								warn.setText(txt);
+								polzovatel = use2.get(i);
+								InputVoc inp = new InputVoc();
+								v = inp.readFromVoc(polzovatel.getCommon());
+								v1 = inp.readFromVoc(polzovatel.getProc());
+								v2 = inp.readFromVoc(polzovatel.getDone());
+								num = polzovatel.getNumber();
+								numCorrect = polzovatel.getNumCorrect();
 								removeAll();
 								Test(1);
 								repaint();
@@ -561,5 +687,4 @@ public class WorkPanel extends JPanel {
 			}
 		}
 	}
-
 }

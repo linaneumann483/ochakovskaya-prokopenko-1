@@ -6,44 +6,46 @@
 	import java.io.Serializable;
 	import java.util.ArrayList;
 	import java.util.List;
-	import java.util.HashMap;
 	import javax.swing.*;
 
 	class ButtonPanel extends JPanel implements Serializable {
 		private static final long serialVersionUID = 107554717113806479L;
-		private File userfile;
+		private File userfile, vocfile;
 		JLabel warn = new JLabel("");
 		JTextField login = new JTextField("", 15);
-		JTextField password = new JTextField("", 15);
+		JPasswordField password = new JPasswordField("", 15);
 		JButton register = new JButton("Sign up");
 		 JButton enter = new JButton("Sign in");
 		 JLabel log = new JLabel("login");
 		 JLabel pass = new JLabel("password");
+		 
 	   public ButtonPanel(){
-		 userfile = new File("users.txt");
-		 add(login);
-		 add(password);
-		 add(register);
-		 add(enter);
-		 add(log);
-		 add(pass);
-		 add(warn);
-		 warn.setForeground(Color.RED);
-		 warn.setBounds(180, 190, 200, 25);
-		 log.setBounds(130, 50, 100, 25);
-		 pass.setBounds(100, 110, 100, 25);
-		 login.setBounds(180, 50, 140, 25);
-		 password.setBounds(180, 110, 140, 25);
-		 register.setBounds(120, 150, 100, 30);
-		 enter.setBounds(280, 150, 100, 30);
-		 
-		 
-		 upAction up = new upAction(userfile);
-		 register.addActionListener(up);
-		 
-		 inAction in = new inAction(userfile);
-		 enter.addActionListener(in);
+		   userfile = new File("users.txt");
+			 vocfile = new File("vocab.txt");
+			 add(login);
+			 add(password);
+			 add(register);
+			 add(enter);
+			 add(log);
+			 add(pass);
+			 add(warn);
+			 warn.setForeground(Color.RED);
+			 warn.setBounds(180, 190, 200, 25);
+			 log.setBounds(130, 50, 100, 25);
+			 pass.setBounds(100, 110, 100, 25);
+			 login.setBounds(180, 50, 140, 25);
+			 password.setBounds(180, 110, 140, 25);
+			 register.setBounds(120, 150, 100, 30);
+			 enter.setBounds(280, 150, 100, 30);
+			 
+			 
+			 upAction up = new upAction(userfile);
+			 register.addActionListener(up);
+			 
+			 inAction in = new inAction(userfile);
+			 enter.addActionListener(in);
 	 }	 
+	   
 		private class upAction implements ActionListener{
 	       private List<User> use2;
 	       private InputUser a = new InputUser();
