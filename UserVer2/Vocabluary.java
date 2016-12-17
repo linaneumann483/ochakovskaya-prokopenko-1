@@ -1,12 +1,13 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Vocabluary implements Serializable {
 	private static final long serialVersionUID = 107554717113806479L;
 	private String word;
-	private String[] translations;
+	private ArrayList<String> translations;
 	private int correct;
 	public Vocabluary(){
-		translations = new String[0];
+		translations = new ArrayList<String>();
 		correct = 0;
 	}
 	public String getWord(){
@@ -18,14 +19,14 @@ public class Vocabluary implements Serializable {
 	}
 	
 	public String getTransl(int i){
-		return translations[i];
+		return translations.get(i);
 	}
 	
-	public String[] getTrans(){
+	public ArrayList<String> getTrans(){
 		return translations;
 	}
 	
-	public void setTrans(String [] translations){
+	public void setTrans(ArrayList<String> translations){
 	    	this.translations = translations;
 	}
 	

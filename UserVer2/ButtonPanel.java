@@ -110,8 +110,7 @@ class ButtonPanel extends JPanel implements Serializable {
 						e.setLogin(login.getText());
 						e.setPassword(password.getText());
 						try{
-						b.addToVoc(null, vocfile);
-						tmp = b.readFromVoc(vocfile);
+						tmp = b.Create(vocfile);
 			    		File f2 = new File(""+e.getLogin()+"(1.1).txt");
 			    		b.addToVoc(tmp, f2);
 			    		e.setCommon(f2);

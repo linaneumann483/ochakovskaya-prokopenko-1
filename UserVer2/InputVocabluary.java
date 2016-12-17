@@ -3,31 +3,61 @@ import java.io.*;
 
 class InputVocabluary implements Serializable {
 	private static final long serialVersionUID = 107554717113806479L;
-	private static String[] trans;
+	private static ArrayList<String> trans;
 	private static String x;
 
-	public void Create() throws StreamCorruptedException {
-		Scanner sc = new Scanner(System.in);
-		List<Vocabluary> voc = new ArrayList<Vocabluary>();
-		for (int i = 0; i < voc.size(); i++) {
-			System.out.println("Enter word:");
-			x = sc.next();
-			voc.get(voc.size()-1).setWord(x);
-			System.out.println("Enter num of translations");
-			int num = sc.nextInt();
-			trans = new String[num];
-			System.out.println("Enter " + num + " translations");
-			for (int j = 0; j < num; j++) {
-				trans[j] = sc.next();
+	public ArrayList<Vocabluary> Create(File y) throws IOException, ClassNotFoundException{
+	BufferedReader r = null;
+	String a,b = "";
+	int k = 0;
+	
+	ArrayList<Vocabluary> v = new ArrayList<Vocabluary>();
+	ArrayList<String> tr = new ArrayList<String>();
+		r = new BufferedReader(new FileReader(y));
+		a = r.readLine();
+		while(a!= null){
+			tr = new ArrayList<String>();
+		for(int i = 0; i < a.length(); i++){
+			if (a.charAt(i) == ' '){
+			  for(int j = 0; j < i; j++){
+			   b = b+a.charAt(j);
+			  }
+			  
+			Vocabluary vv = new Vocabluary();
+			vv.setWord(b);
+		    v.add(vv);
+
+			  b = "";
+				k = i;
 			}
-			voc.get(voc.size()-1).setTrans(trans);
+		
+			if(a.charAt(i) == ','){
+			 for(int j = k+1; j < i; j++){
+				 b = b+a.charAt(j); 
+			 }
+			  tr.add(b); 	 
+             b = "";
+             k = i;
+			}
+			if(i == a.length()-1){
+				for(int j = k+1; j < i+1; j++){
+					 b = b+a.charAt(j); 
+				 }
+				  tr.add(b);
+				  v.get(v.size()-1).setTrans(tr);
+				tr = null;
+				b = "";
+				k = 0;
+			}
 		}
-		File x = new File("Vocabluary.bin");
-		addToVoc(voc, x);
-		sc.close();
+		a = r.readLine();
+		}
+		
+		r.close();
+		return v;	
 	}
 
-	public void addToVoc(List<Vocabluary> e2, File x) throws StreamCorruptedException {
+	public void addToVoc(List<Vocabluary> e2, File x)  {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(x));
 			oos.writeObject(e2);
@@ -39,7 +69,7 @@ class InputVocabluary implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<Vocabluary> readFromVoc(File x) throws IOException, ClassNotFoundException, StreamCorruptedException {
+	public ArrayList<Vocabluary> readFromVoc(File x) throws IOException, ClassNotFoundException {
 		ArrayList<Vocabluary> c;
 		if (x.length() != 0) {
 			InputStream t = new BufferedInputStream(new FileInputStream(x));
@@ -65,5 +95,6 @@ class InputVocabluary implements Serializable {
 
 		}
 	}
+	
 
 }
