@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import javax.swing.*;
+
 class ButtonPanel extends JPanel implements Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 107554717113806479L;
 	private File userfile;
 	JLabel warn = new JLabel("");
