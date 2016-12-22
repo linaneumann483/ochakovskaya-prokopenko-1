@@ -1,3 +1,5 @@
+
+import java.io.IOException;
 import javax.swing.JFrame;
 
 public class WorkFrame extends JFrame{
@@ -9,8 +11,14 @@ public class WorkFrame extends JFrame{
 	 setTitle("ButtonTest");
 	 setSize(MY_WIDTH, MY_HEIGHT);
 	 setResizable(false);
-	 WorkPanel panel = new WorkPanel();
-	 add (panel);
-	 panel.setLayout(null);
+	 WorkPanel panel;
+	try {
+		panel = new WorkPanel();
+		 add (panel);
+		 panel.setLayout(null);
+	} catch (ClassNotFoundException | IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 }

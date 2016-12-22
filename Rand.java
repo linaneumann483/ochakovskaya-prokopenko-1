@@ -10,7 +10,10 @@ public class Rand {
 			boolean a = (CheckMas(mas[i],i));
 			while (a){
 				mas[i] =  ((int)( Math.random() * d)); 
-				a = (CheckMas(mas[i],i));
+				if (n<=d){
+				a = (CheckMas(mas[i],i));}
+				else
+				a=false;
 			}
 		}
 	}
